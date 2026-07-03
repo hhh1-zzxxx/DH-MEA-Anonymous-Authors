@@ -261,7 +261,7 @@ if __name__ == '__main__':
     parser.add_argument('--alpha', default=0.1, type=float)
     parser.add_argument('--ind_dropout_rate', default=0.3, type=float)
 
-    parser.add_argument('--epoch', default=60, type=int)
+    parser.add_argument('--epoch', default=100, type=int)
     parser.add_argument('--depth', default=2, type=int)
     parser.add_argument('--gamma', default=1, type=float)
 

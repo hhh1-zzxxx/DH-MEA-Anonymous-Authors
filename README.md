@@ -172,9 +172,9 @@ python src/vis_em_ma_nv.py --dataset zh_en
 Then run training/evaluation with:
 
 ```bash
-python src/main_nv.py --dataset OEA_D_W_15K_V1 --epoch 60
-python src/main_nv.py --dataset OEA_D_W_15K_V2 --epoch 60
-python src/main_nv.py --dataset zh_en --epoch 60
+python src/main_nv.py --dataset OEA_D_W_15K_V1 --epoch 100
+python src/main_nv.py --dataset OEA_D_W_15K_V2 --epoch 100
+python src/main_nv.py --dataset zh_en --epoch 100
 ```
 
 ## Quick Reproduction Workflow
@@ -191,4 +191,4 @@ If `Emb/` and `Score Matrix/` already contain the required `.npy` files, the pre
 
 ## Output
 
-Training saves the best checkpoint under `src/model_params.pth` by default and prints validation/test metrics to the console. The default epoch setting is `100` for `main.py` and `60` for `main_nv.py`; these values can be overridden with `--epoch`.
+Training saves the best checkpoint under `src/model_params.pth` by default and prints validation/test metrics to the console. The default epoch setting is `100` for both `main.py` and `main_nv.py`; this value can be overridden with `--epoch`. Here, `--epoch` denotes the maximum number of training epochs. The seed scheduling horizon is controlled separately in `seed_iterate.py` by `total_epochs=40`.
