@@ -131,12 +131,12 @@ class SeedIterator:
         else:
             updated = train_pair
 
-        added = len(new_seeds)    
+        added = len(new_seeds)
 
         if self.verbose:
             print(f"Added {added} new pairs.")
 
-        return updated, {'added': float(added)}            
+        return updated, {'added': float(added)}
 
 
 # -----------------------------------------------------------------------------

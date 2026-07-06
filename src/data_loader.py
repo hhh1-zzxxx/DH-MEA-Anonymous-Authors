@@ -105,7 +105,13 @@ class KGs:
     def load_base(self, path, rates):
         entity1, rel1, triples1 = self.load_triples(os.path.join(path, 'triples_1'))
         entity2, rel2, triples2 = self.load_triples(os.path.join(path, 'triples_2'))
-        ill_ent = self.load_alignment_pair(os.path.join(path, 'ref_ent_ids'))
+
+        alignment_path = os.path.join(path, 'ref_ent_ids')
+        if not os.path.exists(alignment_path):
+            alt_alignment_path = os.path.join(path, 'ill_ent_ids')
+            if os.path.exists(alt_alignment_path):
+                alignment_path = alt_alignment_path
+        ill_ent = self.load_alignment_pair(alignment_path)
 
         # assume ill_ent is a list; shuffle in-place
         random.shuffle(ill_ent)

@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from gcn_layer import NR_all_GraphAttention1_v2

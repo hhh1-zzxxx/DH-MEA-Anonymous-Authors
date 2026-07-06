@@ -17,7 +17,7 @@ tqdm 4.67.1
 numpy 2.2.3
 ```
 
-Install the Python dependencies according to your local PyTorch/CUDA environment. In particular, `torch-scatter` should match the installed PyTorch version.
+Install the Python dependencies according to your local PyTorch/CUDA environment. A basic dependency file is provided via `requirements.txt`. In particular, `torch-scatter` should match the installed PyTorch version and may need to be installed from the official PyG wheel index for your PyTorch/CUDA build.
 
 ## Repository Structure
 
@@ -136,6 +136,7 @@ datasets/<dataset>/
   triples_2
   training_attrs_1
   training_attrs_2
+  ref_ent_ids or ill_ent_ids
 
 datasets/Vis/
   <dataset>.pkl   # e.g., OEA_D_W_15K_V1.pkl, OEA_D_W_15K_V2.pkl, fr_en.pkl

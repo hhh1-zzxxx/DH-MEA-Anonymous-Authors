@@ -7,7 +7,7 @@ import torch
 from utils import *
 from config import *
 from data_loader import KGs
-from model import Encoder_Model                        
+from model import Encoder_Model
 from seed_iterate import get_pair, SeedIterator
 from sinkhorn import matrix_sinkhorn
 import sparse_eval
@@ -113,9 +113,9 @@ def dual_evaluate(
     Lvec_all, Rvec_all, _ = model.get_embeddings(entity1_ids, entity2_ids)
 
     # Base scores (dot product)
-    scores = torch.matmul(Lvec, Rvec.T)              
-    scores_full = torch.matmul(Lvec_all, Rvec_all.T) 
-    
+    scores = torch.matmul(Lvec, Rvec.T)
+    scores_full = torch.matmul(Lvec_all, Rvec_all.T)
+
     # ---------------- Vectorized side-modality addition ----------------
     # For the KxK block, select corresponding rows/cols from side_modalities_sum
     left_idx = deal_pairs[:, 0]
@@ -259,7 +259,7 @@ if __name__ == '__main__':
 
     # ----------------------- Load KG data ------------------------------------------------
     kgs = KGs()
-    
+
     (train_pair, valid_pair, test_pair,
      ent_adj, r_index, r_val, ent_adj_with_loop, ent_rel_adj,
      entity1, entity2, ill_ent, triples1, triples2) = kgs.load_data(data_root, args)
