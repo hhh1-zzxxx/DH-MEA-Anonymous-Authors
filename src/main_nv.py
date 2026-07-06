@@ -63,7 +63,7 @@ def load_side_modalities(directory: str):
       total_sum      : np.ndarray (sum of Sinkhorn-adjusted matrices)
       total_sum_1    : np.ndarray (sum of min-max normalized matrices)
     """
-    side_modalities = {}
+    side_modality_names = []
     matrix_path = os.path.join(directory, 'Score Matrix')
     if not os.path.isdir(matrix_path):
         raise FileNotFoundError(
@@ -73,19 +73,19 @@ def load_side_modalities(directory: str):
 
     for filename in os.listdir(matrix_path):
         if filename.endswith('.npy'):
-            base_filename = filename.split('.')[0]
-            side_modalities[base_filename] = np.load(os.path.join(matrix_path, filename))
+            side_modality_names.append(filename.split('.')[0])
 
-    print(f'There are {len(side_modalities)} side modalities.')
-    print(f'They are: {list(side_modalities.keys())}')
-    if not side_modalities:
+    print(f'There are {len(side_modality_names)} side modalities.')
+    print(f'They are: {side_modality_names}')
+    if not side_modality_names:
         raise FileNotFoundError(f"No .npy side-modality matrices found in {matrix_path}")
 
     total_sum = None
     total_sum_1 = None
-    for _, array in side_modalities.items():
+    for name in side_modality_names:
+        array = np.load(os.path.join(matrix_path, f'{name}.npy'), mmap_mode='r')
         # Min-max normalization in numpy
-        array_1 = (array - np.min(array)) / (np.max(array) - np.min(array) + 1e-8)
+        array_1 = ((array - np.min(array)) / (np.max(array) - np.min(array) + 1e-8)).astype(np.float32, copy=False)
 
         # Sinkhorn on (1 - sim) in torch
         t = torch.tensor(array_1, dtype=torch.float32, device=device)
@@ -95,7 +95,7 @@ def load_side_modalities(directory: str):
         total_sum_1 = array_1 if total_sum_1 is None else (total_sum_1 + array_1)
         total_sum = array_sink if total_sum is None else (total_sum + array_sink)
 
-    return side_modalities, total_sum, total_sum_1
+    return side_modality_names, total_sum, total_sum_1
 
 
 # =============================================================================
