@@ -126,7 +126,8 @@ class KGs:
     # Public API
     # -----------------------------------------------------------------------------
     def load_data(self, dir, args):
-        base_data = self.load_base(os.path.join(dir, args.dataset), 0.2)
+        train_rate = 0.3 if args.dataset in {'fr_en', 'ja_en', 'zh_en'} else 0.2
+        base_data = self.load_base(os.path.join(dir, args.dataset), train_rate)
         self.entity1, self.rel1, self.triples1 = base_data[0:3]
         self.entity2, self.rel2, self.triples2 = base_data[3:6]
         self.train_pairs, self.valid_pairs, self.test_pairs = base_data[6:9]
