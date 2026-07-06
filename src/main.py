@@ -30,8 +30,10 @@ def load_features(directory: str):
     key_feature = value_feature = vis_feature = None
     feature_path = os.path.join(directory, 'Emb')
     if not os.path.isdir(feature_path):
-        print(f"[load_features] Directory not found: {feature_path}")
-        return key_feature, value_feature, vis_feature
+        raise FileNotFoundError(
+            f"Required feature directory not found: {feature_path}. "
+            "Generate or place key_embedding.npy, value_embedding.npy, and vis_embedding.npy first."
+        )
 
     name_map = {
         'key_embedding.npy': 'key_feature',
@@ -52,6 +54,16 @@ def load_features(directory: str):
             vis_feature = arr
         print(f"[load_features] Loaded {filename} -> {name_map.get(filename, 'unknown')}")
 
+    missing = []
+    if key_feature is None:
+        missing.append('key_embedding.npy')
+    if value_feature is None:
+        missing.append('value_embedding.npy')
+    if vis_feature is None:
+        missing.append('vis_embedding.npy')
+    if missing:
+        raise FileNotFoundError(f"Missing feature file(s) in {feature_path}: {missing}")
+
     return key_feature, value_feature, vis_feature
 
 
@@ -65,8 +77,10 @@ def load_side_modalities(directory: str):
     side_modalities = {}
     matrix_path = os.path.join(directory, 'Score Matrix')
     if not os.path.isdir(matrix_path):
-        print(f"[load_side_modalities] Directory not found: {matrix_path}")
-        return side_modalities, None
+        raise FileNotFoundError(
+            f"Required side-modality matrix directory not found: {matrix_path}. "
+            "Generate or place Attr.npy and Vis.npy (or other .npy side-modality matrices) first."
+        )
 
     for filename in os.listdir(matrix_path):
         if filename.endswith('.npy'):
@@ -76,6 +90,8 @@ def load_side_modalities(directory: str):
     print(f"[load_side_modalities] Found {len(side_modalities)} side modalities.")
     if side_modalities:
         print(f"[load_side_modalities] Keys: {list(side_modalities.keys())}")
+    else:
+        raise FileNotFoundError(f"No .npy side-modality matrices found in {matrix_path}")
 
     # Sum all arrays (vectorized)
     total_sum = None

@@ -31,6 +31,11 @@ def load_features_novalue(directory: str):
     attr_feature = None
     vis_feature = None
     feature_path = os.path.join(directory, 'Emb')
+    if not os.path.isdir(feature_path):
+        raise FileNotFoundError(
+            f"Required feature directory not found: {feature_path}. "
+            "Generate or place attr_embedding.npy and vis_embedding.npy first."
+        )
     for filename in os.listdir(feature_path):
         if filename.endswith('.npy'):
             file_path = os.path.join(feature_path, filename)
@@ -39,6 +44,13 @@ def load_features_novalue(directory: str):
             elif filename == 'vis_embedding.npy':
                 vis_feature = np.load(file_path)
             print(f"Loaded {filename} into {filename.split('_')[0]}_feature")
+    missing = []
+    if attr_feature is None:
+        missing.append('attr_embedding.npy')
+    if vis_feature is None:
+        missing.append('vis_embedding.npy')
+    if missing:
+        raise FileNotFoundError(f"Missing feature file(s) in {feature_path}: {missing}")
     return attr_feature, vis_feature
 
 
@@ -53,6 +65,11 @@ def load_side_modalities(directory: str):
     """
     side_modalities = {}
     matrix_path = os.path.join(directory, 'Score Matrix')
+    if not os.path.isdir(matrix_path):
+        raise FileNotFoundError(
+            f"Required side-modality matrix directory not found: {matrix_path}. "
+            "Generate or place Attr.npy and Vis.npy (or other .npy side-modality matrices) first."
+        )
 
     for filename in os.listdir(matrix_path):
         if filename.endswith('.npy'):
@@ -61,6 +78,8 @@ def load_side_modalities(directory: str):
 
     print(f'There are {len(side_modalities)} side modalities.')
     print(f'They are: {list(side_modalities.keys())}')
+    if not side_modalities:
+        raise FileNotFoundError(f"No .npy side-modality matrices found in {matrix_path}")
 
     total_sum = None
     total_sum_1 = None
