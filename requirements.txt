@@ -1,5 +1,8 @@
-numpy==2.2.3
+--extra-index-url https://download.pytorch.org/whl/cu128
+--find-links https://data.pyg.org/whl/torch-2.7.0+cu128.html
+numpy==2.2.5
 scipy==1.15.3
 tqdm==4.67.1
-torch==2.6.0
-sentence-transformers
+torch==2.7.0+cu128
+torch-scatter==2.1.2+pt27cu128
+sentence-transformers==5.1.0

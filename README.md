@@ -9,15 +9,16 @@ This repository contains the reviewer-facing implementation of **Dual-Branch Het
 The experiments were run with the following environment:
 
 ```text
-python 3.10
-torch 2.6.0+cpu
-torch-scatter 2.1.2+pt26cpu
+python 3.10.16
+torch 2.7.0+cu128
+torch-scatter 2.1.2+pt27cu128
 scipy 1.15.3
 tqdm 4.67.1
-numpy 2.2.3
+numpy 2.2.5
+sentence-transformers 5.1.0
 ```
 
-Install the Python dependencies according to your local PyTorch/CUDA environment. A basic dependency file is provided via `requirements.txt`. In particular, `torch-scatter` should match the installed PyTorch version and may need to be installed from the official PyG wheel index for your PyTorch/CUDA build.
+The released configuration matches the environment used for the experiments: Python 3.10.16, PyTorch 2.7.0 with CUDA 12.8, and torch-scatter 2.1.2 built for PyTorch 2.7/CUDA 12.8. Install the Python dependencies according to your local PyTorch/CUDA environment. In particular, `torch-scatter` must match the installed PyTorch and CUDA versions and may need to be installed from the official PyG wheel index.
 
 ## Repository Structure
 
